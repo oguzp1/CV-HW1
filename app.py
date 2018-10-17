@@ -9,25 +9,43 @@ from PyQt5.QtCore import Qt
 class App(QMainWindow):
     def __init__(self):
         super(App, self).__init__()
-        return NotImplementedError
-
 
         self.title = 'Histogram Equalization'
-        # You can define other things in here
+        
+        self.left = 100
+        self.right = 100
+        self.width = 640
+        self.height = 400
+        
+        inputAction = QAction("&Open Input", self)
+        inputAction.triggered.connect(self.openInputImage)
+
+        targetAction = QAction("&Open Target", self)
+        targetAction.triggered.connect(self.openTargetImage)
+
+        exitAction = QAction("&Exit", self)
+        exitAction.triggered.connect(self.close)
+
+        menu = self.menuBar()
+        fileMenu = menu.addMenu("&File")
+        fileMenu.addAction(inputAction)
+        fileMenu.addAction(targetAction)
+        fileMenu.addAction(exitAction)
+
         self.initUI()
 
     def openInputImage(self):
         # This function is called when the user clicks File->Input Image.
-        return NotImplementedError
+        print('input')
 
     def openTargetImage(self):
         # This function is called when the user clicks File->Target Image.
-        return NotImplementedError
+        print('target')
 
     def initUI(self):
-        return NotImplementedError
         # Write GUI initialization code
-
+        self.setWindowTitle(self.title)
+        self.setGeometry(self.left, self.right, self.width, self.height)
         self.show()
 
     def histogramButtonClicked(self):
