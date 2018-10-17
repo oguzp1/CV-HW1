@@ -16,6 +16,9 @@ class App(QMainWindow):
         self.right = 100
         self.width = 640
         self.height = 400
+
+        self.inputLoaded = False
+        self.targetLoaded = False
         
         inputAction = QAction("&Open Input", self)
         inputAction.triggered.connect(self.openInputImage)
@@ -36,10 +39,12 @@ class App(QMainWindow):
 
     def openInputImage(self):
         # This function is called when the user clicks File->Input Image.
+        self.inputLoaded = True
         print('input')
 
     def openTargetImage(self):
         # This function is called when the user clicks File->Target Image.
+        self.targetLoaded = True
         print('target')
 
     def initUI(self):
@@ -50,14 +55,13 @@ class App(QMainWindow):
 
     def histogramButtonClicked(self):
         if not self.inputLoaded and not self.targetLoaded:
-            # Error: "First load input and target images" in MessageBox
-            return NotImplementedError
-        if not self.inputLoaded:
-            # Error: "Load input image" in MessageBox
-            return NotImplementedError
+            QMessageBox.warning(self, "Input and Target Missing!", "Please load input and target images first!", QMessageBox.Ok)
+        elif not self.inputLoaded:
+            QMessageBox.warning(self, "Input Missing!", "Please load an input image first!", QMessageBox.Ok)
         elif not self.targetLoaded:
-            # Error: "Load target image" in MessageBox
-            return NotImplementedError
+            QMessageBox.warning(self, "Target Missing!", "Please load a target image first!", QMessageBox.Ok)
+        else:
+            print('success')
 
     def calcHistogram(self, I):
         # Calculate histogram
