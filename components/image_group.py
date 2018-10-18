@@ -14,11 +14,8 @@ class ImageGroup(QGroupBox):
         vbox.addWidget(self.labelBottom)
         self.setLayout(vbox)
 
-    def setTop(self, topWidget):
-        self.labelTop.addWidget(topWidget)
+    def getLabelTop(self):
+        return self.labelTop
 
-    def setBottom(self, bottomWidget):
-        self.labelBottom.addWidget(bottomWidget)
-
-    def setImage(self, im):
-        pass
+    def getLabelBottom(self):
+        return self.labelBottom

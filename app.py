@@ -3,6 +3,7 @@ from PyQt5.QtWidgets import QApplication, QMainWindow, QMenu, QVBoxLayout, QSize
     QPushButton, QGroupBox, QAction, QFileDialog, QSpacerItem
 from PyQt5.QtWidgets import QGridLayout
 from PyQt5.QtCore import Qt
+from PyQt5.QtGui import QPixmap, QImage
 from components.image_group import ImageGroup
 
 class App(QMainWindow):
@@ -19,19 +20,32 @@ class App(QMainWindow):
         self.inputLoaded = False
         self.targetLoaded = False
 
+        self.inputPixMap = None
+        self.targetPixMap = None
+
+        self.groupInput = ImageGroup("Input")
+        self.groupTarget = ImageGroup("Target")
+        self.groupResult = ImageGroup("Result")
+
         self.setCentralWidget(QWidget())
 
         self.initUI()
 
     def openInputImage(self):
-        # This function is called when the user clicks File->Input Image.
-        self.inputLoaded = True
-        print('input')
+        filename, _ = QFileDialog.getOpenFileName(self, "Open Input File", ".", "Image Files (*.png *.jpg)")
+        
+        if filename != '':
+            self.inputLoaded = True
+            self.inputPixMap = QPixmap(filename)
+            self.groupInput.getLabelTop().setPixmap(self.inputPixMap)
 
     def openTargetImage(self):
-        # This function is called when the user clicks File->Target Image.
-        self.targetLoaded = True
-        print('target')
+        filename, _ = QFileDialog.getOpenFileName(self, "Open Target File", ".", "Image Files (*.png *.jpg)")
+        
+        if filename != '':
+            self.targetLoaded = True
+            self.targetPixMap = QPixmap(filename)
+            self.groupTarget.getLabelTop().setPixmap(self.targetPixMap)
 
     def initUI(self):
         inputAction = QAction("&Open Input", self)
@@ -57,13 +71,9 @@ class App(QMainWindow):
 
         grid = QGridLayout()
 
-        groupInput = ImageGroup("Input")
-        groupTarget = ImageGroup("Target")
-        groupResult = ImageGroup("Result")
-
-        grid.addWidget(groupInput, 0, 1)
-        grid.addWidget(groupTarget, 0, 3)
-        grid.addWidget(groupResult, 0, 5)
+        grid.addWidget(self.groupInput, 0, 1)
+        grid.addWidget(self.groupTarget, 0, 3)
+        grid.addWidget(self.groupResult, 0, 5)
 
         grid.addItem(QSpacerItem(0, 0, QSizePolicy.Expanding, QSizePolicy.Maximum), 0, 0)
         grid.addItem(QSpacerItem(0, 0, QSizePolicy.Expanding, QSizePolicy.Maximum), 0, 2)
