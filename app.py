@@ -1,6 +1,6 @@
 import sys
 from PyQt5.QtWidgets import QApplication, QMainWindow, QMenu, QVBoxLayout, QSizePolicy, QMessageBox, QWidget, \
-    QPushButton, QGroupBox, QAction, QFileDialog
+    QPushButton, QGroupBox, QAction, QFileDialog, QSpacerItem
 from PyQt5.QtWidgets import QGridLayout
 from PyQt5.QtWidgets import QLabel
 from PyQt5.QtGui import QPixmap, QImage
@@ -14,12 +14,27 @@ class App(QMainWindow):
         
         self.left = 100
         self.right = 100
-        self.width = 640
-        self.height = 400
+        self.width = 1600
+        self.height = 900
 
         self.inputLoaded = False
         self.targetLoaded = False
-        
+
+        self.setCentralWidget(QWidget())
+
+        self.initUI()
+
+    def openInputImage(self):
+        # This function is called when the user clicks File->Input Image.
+        self.inputLoaded = True
+        print('input')
+
+    def openTargetImage(self):
+        # This function is called when the user clicks File->Target Image.
+        self.targetLoaded = True
+        print('target')
+
+    def initUI(self):
         inputAction = QAction("&Open Input", self)
         inputAction.triggered.connect(self.openInputImage)
 
@@ -35,22 +50,37 @@ class App(QMainWindow):
         fileMenu.addAction(targetAction)
         fileMenu.addAction(exitAction)
 
-        self.initUI()
+        grid = QGridLayout()
 
-    def openInputImage(self):
-        # This function is called when the user clicks File->Input Image.
-        self.inputLoaded = True
-        print('input')
+        groupInput = QGroupBox("Input")
+        vboxInput = QVBoxLayout()
+        vboxInput.addStretch(1)
+        groupInput.setLayout(vboxInput)
 
-    def openTargetImage(self):
-        # This function is called when the user clicks File->Target Image.
-        self.targetLoaded = True
-        print('target')
+        groupTarget = QGroupBox("Target")
+        vboxTarget = QVBoxLayout()
+        vboxInput.addStretch(1)
+        groupTarget.setLayout(vboxTarget)
 
-    def initUI(self):
-        # Write GUI initialization code
+        groupResult = QGroupBox("Result")
+        vboxResult = QVBoxLayout()
+        vboxInput.addStretch(1)
+        groupResult.setLayout(vboxResult)
+
+        grid.addWidget(groupInput, 0, 1)
+        grid.addWidget(groupTarget, 0, 3)
+        grid.addWidget(groupResult, 0, 5)
+
+        grid.addItem(QSpacerItem(0, 0, QSizePolicy.Expanding, QSizePolicy.Maximum), 0, 0)
+        grid.addItem(QSpacerItem(0, 0, QSizePolicy.Expanding, QSizePolicy.Maximum), 0, 2)
+        grid.addItem(QSpacerItem(0, 0, QSizePolicy.Expanding, QSizePolicy.Maximum), 0, 4)
+        grid.addItem(QSpacerItem(0, 0, QSizePolicy.Expanding, QSizePolicy.Maximum), 0, 6)
+
+        self.centralWidget().setLayout(grid)
+        #self.setLayout(grid)
         self.setWindowTitle(self.title)
         self.setGeometry(self.left, self.right, self.width, self.height)
+
         self.show()
 
     def histogramButtonClicked(self):
