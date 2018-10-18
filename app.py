@@ -43,11 +43,17 @@ class App(QMainWindow):
         exitAction = QAction("&Exit", self)
         exitAction.triggered.connect(self.close)
 
+        equalizeAction = QAction("&Equalize Histogram", self)
+        equalizeAction.triggered.connect(self.histogramButtonClicked)
+
         menu = self.menuBar()
         fileMenu = menu.addMenu("&File")
         fileMenu.addAction(inputAction)
         fileMenu.addAction(targetAction)
         fileMenu.addAction(exitAction)
+
+        toolbar = self.addToolBar("&File")
+        toolbar.addAction(equalizeAction)
 
         grid = QGridLayout()
 
