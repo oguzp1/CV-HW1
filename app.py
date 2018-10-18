@@ -2,9 +2,8 @@ import sys
 from PyQt5.QtWidgets import QApplication, QMainWindow, QMenu, QVBoxLayout, QSizePolicy, QMessageBox, QWidget, \
     QPushButton, QGroupBox, QAction, QFileDialog, QSpacerItem
 from PyQt5.QtWidgets import QGridLayout
-from PyQt5.QtWidgets import QLabel
-from PyQt5.QtGui import QPixmap, QImage
 from PyQt5.QtCore import Qt
+from components.image_group import ImageGroup
 
 class App(QMainWindow):
     def __init__(self):
@@ -52,20 +51,9 @@ class App(QMainWindow):
 
         grid = QGridLayout()
 
-        groupInput = QGroupBox("Input")
-        vboxInput = QVBoxLayout()
-        vboxInput.addStretch(1)
-        groupInput.setLayout(vboxInput)
-
-        groupTarget = QGroupBox("Target")
-        vboxTarget = QVBoxLayout()
-        vboxInput.addStretch(1)
-        groupTarget.setLayout(vboxTarget)
-
-        groupResult = QGroupBox("Result")
-        vboxResult = QVBoxLayout()
-        vboxInput.addStretch(1)
-        groupResult.setLayout(vboxResult)
+        groupInput = ImageGroup("Input")
+        groupTarget = ImageGroup("Target")
+        groupResult = ImageGroup("Result")
 
         grid.addWidget(groupInput, 0, 1)
         grid.addWidget(groupTarget, 0, 3)
@@ -77,7 +65,6 @@ class App(QMainWindow):
         grid.addItem(QSpacerItem(0, 0, QSizePolicy.Expanding, QSizePolicy.Maximum), 0, 6)
 
         self.centralWidget().setLayout(grid)
-        #self.setLayout(grid)
         self.setWindowTitle(self.title)
         self.setGeometry(self.left, self.right, self.width, self.height)
 
