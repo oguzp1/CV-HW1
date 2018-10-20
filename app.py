@@ -4,6 +4,7 @@ from PyQt5.QtWidgets import QApplication, QMainWindow, QMenu, QVBoxLayout, QSize
 from PyQt5.QtGui import QPixmap, QImage, QColor
 from components.image_group import ImageGroup
 from components.plot_canvas import PlotCanvas
+from components.histogram_util import HistogramUtil
 
 class App(QMainWindow):
     def __init__(self):
@@ -18,9 +19,13 @@ class App(QMainWindow):
 
         self.inputLoaded = False
         self.targetLoaded = False
+        self.resultLoaded = False
 
         self.inputPixMap = None
         self.targetPixMap = None
+
+        self.inputHistogram = None
+        self.targetHistogram = None
 
         self.groupInput = ImageGroup("Input")
         self.groupTarget = ImageGroup("Target")
@@ -33,18 +38,22 @@ class App(QMainWindow):
     def openInputImage(self):
         filename, _ = QFileDialog.getOpenFileName(self, "Open Input File", ".", "Image Files (*.png *.jpg)")
         
-        if filename != '':
+        if filename != '' and not self.inputLoaded:
             self.inputLoaded = True
             self.inputPixMap = QPixmap(filename)
             self.groupInput.getImageLabel().setPixmap(self.inputPixMap)
+            self.inputHistogram = HistogramUtil.calcHistogram(self.inputPixMap.toImage())
+            self.groupInput.addWidget(PlotCanvas(self.inputHistogram))
 
     def openTargetImage(self):
         filename, _ = QFileDialog.getOpenFileName(self, "Open Target File", ".", "Image Files (*.png *.jpg)")
         
-        if filename != '':
+        if filename != '' and not self.targetLoaded:
             self.targetLoaded = True
             self.targetPixMap = QPixmap(filename)
             self.groupTarget.getImageLabel().setPixmap(self.targetPixMap)
+            self.targetHistogram = HistogramUtil.calcHistogram(self.targetPixMap.toImage())
+            self.groupTarget.addWidget(PlotCanvas(self.targetHistogram))
 
     def initUI(self):
         inputAction = QAction("&Open Input", self)
@@ -92,9 +101,14 @@ class App(QMainWindow):
             QMessageBox.warning(self, "Input Missing!", "Please load an input image first!", QMessageBox.Ok)
         elif not self.targetLoaded:
             QMessageBox.warning(self, "Target Missing!", "Please load a target image first!", QMessageBox.Ok)
-        else:
-            print('success')
-
+        elif not self.resultLoaded:
+            self.resultLoaded = True
+            lut = HistogramUtil.getHistogramMatchingLUT(self.inputHistogram, self.targetHistogram)
+            resultImage = HistogramUtil.matchHistogram(lut, self.inputPixMap.toImage())
+            resultHistogram = HistogramUtil.calcHistogram(resultImage)
+            self.groupResult.getImageLabel().setPixmap(QPixmap(resultImage))
+            self.groupResult.addWidget(PlotCanvas(resultHistogram))
+            
 if __name__ == '__main__':
     app = QApplication(sys.argv)
     ex = App()
