@@ -12,6 +12,7 @@ class ImageGroup(QGroupBox):
 
         self.imageLabel = QLabel()
         vbox.addWidget(self.imageLabel)
+        vbox.setAlignment(self.imageLabel, Qt.AlignHCenter)
 
         self.setMinimumWidth(min_width)
         self.setLayout(vbox)
@@ -21,3 +22,4 @@ class ImageGroup(QGroupBox):
 
     def addWidget(self, widget):
         self.layout().addWidget(widget)
+        self.layout().setAlignment(widget, Qt.AlignHCenter)
