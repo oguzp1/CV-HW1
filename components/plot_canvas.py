@@ -2,7 +2,7 @@ from matplotlib.backends.backend_qt5agg import FigureCanvasQTAgg as FigureCanvas
 from matplotlib.figure import Figure
 
 class PlotCanvas(FigureCanvas):
-    def __init__(self, hist, parent=None, width=5, height=4, dpi=100):
+    def __init__(self, hist, parent=None, width=5, height=6, dpi=100):
         FigureCanvas.__init__(self, Figure(figsize=(width, height), dpi=dpi))
         self.plotHistogram(hist)
 
@@ -17,5 +17,7 @@ class PlotCanvas(FigureCanvas):
 
         axes3 = self.figure.add_subplot(313)
         axes3.bar(common_range, hist[2], color=[0, 0, 1])
+
+        self.figure.subplots_adjust(hspace=0.3)
 
         self.draw()
