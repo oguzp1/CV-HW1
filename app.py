@@ -1,8 +1,6 @@
 import sys
 from PyQt5.QtWidgets import QApplication, QMainWindow, QMenu, QVBoxLayout, QSizePolicy, QMessageBox, QWidget, \
-    QPushButton, QGroupBox, QAction, QFileDialog, QSpacerItem
-from PyQt5.QtWidgets import QGridLayout
-from PyQt5.QtCore import Qt
+    QPushButton, QGroupBox, QAction, QFileDialog, QSpacerItem, QGridLayout
 from PyQt5.QtGui import QPixmap, QImage
 from components.image_group import ImageGroup
 
