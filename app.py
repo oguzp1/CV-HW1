@@ -37,7 +37,7 @@ class App(QMainWindow):
         if filename != '':
             self.inputLoaded = True
             self.inputPixMap = QPixmap(filename)
-            self.groupInput.getLabelTop().setPixmap(self.inputPixMap)
+            self.groupInput.getImageLabel().setPixmap(self.inputPixMap)
 
     def openTargetImage(self):
         filename, _ = QFileDialog.getOpenFileName(self, "Open Target File", ".", "Image Files (*.png *.jpg)")
@@ -45,7 +45,7 @@ class App(QMainWindow):
         if filename != '':
             self.targetLoaded = True
             self.targetPixMap = QPixmap(filename)
-            self.groupTarget.getLabelTop().setPixmap(self.targetPixMap)
+            self.groupTarget.getImageLabel().setPixmap(self.targetPixMap)
 
     def initUI(self):
         inputAction = QAction("&Open Input", self)
