@@ -1,8 +1,9 @@
 import sys
 from PyQt5.QtWidgets import QApplication, QMainWindow, QMenu, QVBoxLayout, QSizePolicy, QMessageBox, QWidget, \
     QPushButton, QGroupBox, QAction, QFileDialog, QSpacerItem, QGridLayout
-from PyQt5.QtGui import QPixmap, QImage
+from PyQt5.QtGui import QPixmap, QImage, QColor
 from components.image_group import ImageGroup
+from components.plot_canvas import PlotCanvas
 
 class App(QMainWindow):
     def __init__(self):
@@ -93,10 +94,6 @@ class App(QMainWindow):
             QMessageBox.warning(self, "Target Missing!", "Please load a target image first!", QMessageBox.Ok)
         else:
             print('success')
-
-    def calcHistogram(self, I):
-        # Calculate histogram
-        return NotImplementedError
 
 if __name__ == '__main__':
     app = QApplication(sys.argv)
